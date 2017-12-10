@@ -76,11 +76,11 @@ TFT_HX8357 tft = TFT_HX8357();       // Invoke custom library
 float ltx = 0;    // Saved x coord of bottom of needle
 uint16_t osx = 120, osy = 120; // Saved x & y coords
 uint32_t updateTime = 0;       // time for next update
-int old_analog =  -999; // Value last displayed
-int old_digital = -999; // Value last displayed
-int value[6] = {0, 0, 0, 0, 0, 0};
-int old_value[6] = { -1, -1, -1, -1, -1, -1};
-int old_text_value[6] = { -1, -1, -1, -1, -1, -1};
+int old_analog ; // Value last displayed
+int old_digital; // Value last displayed
+int value[6] ;
+int old_value[6] ;
+int old_text_value[6] ;
 int d = 0;
 // TFT Display Configuration (END)
 
@@ -121,6 +121,7 @@ char timeStr[TIME_STR_SIZE];
 char temperatureStr[TEMPERATURE_STR_SIZE];
 char humidityStr[HUMIDITY_STR_SIZE];
 char pressureStr[PRESSURE_STR_SIZE];
+#define REINIT_TFT_COUNT 3600 // re-init every hour
 // Software variables (BEGIN)
 
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -179,7 +180,7 @@ void loop() { // put your main code here, to run repeatedly:
 //     Serial.println(arduinoData.clockMinute);  
 //     Serial.print("clockSeconds:");
 //     Serial.println(arduinoData.clockSeconds);  
-    if (count>=3600){ // re-init the screen every 1-hour
+    if (count>=REINIT_TFT_COUNT){ // re-init the screen every 1-hour
       initScreen();
       count=0;
     }
@@ -215,6 +216,15 @@ void initScreen() {
   analogMeter_V2(240, "TEMP");
   byte d = 55;
   int w = 50;
+
+ old_analog =  -999; // Value last displayed
+ old_digital = -999; // Value last displayed
+ for (int i = 0; i < 6; i++){
+  value[i]=0;
+  old_value[i]=-1;
+  old_text_value[i]=-1;
+ }
+  
   plotLinear("PM 1 ", 0, 160, w);
   plotLinear("PM 2.5", 1 * d, 160, w);
   plotLinear("PM 10", 2 * d, 160, w);

@@ -46,10 +46,10 @@
 
 // BME280 PIN:
 //  BME280     Arduino(UNO)
-//  SCL         13 
-//  SDC         12 
-//  SDA         11
-//  CSB         10
+//  SCL         7 
+//  SDC         6 
+//  SDA         5
+//  CSB         4
 #define BME_SCK 7 // Serial Clock   SCL
 #define BME_MISO 6// Serial Data Out SDC 
 #define BME_MOSI 5 // Serial Data In  SDA
